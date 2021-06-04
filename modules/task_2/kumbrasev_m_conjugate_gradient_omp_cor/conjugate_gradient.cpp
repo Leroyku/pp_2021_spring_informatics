@@ -19,6 +19,7 @@ std::vector<double> getRandomVector(int n) {
         res[i] = std::rand() % 100 - 100;
     }
     return res;
+}
 
 std::vector<double> linVec(double a, const std::vector<double> &v1, double b, const std::vector<double> &v2) {
     int n = v1.size();
