@@ -3,10 +3,11 @@
 #include "./conjugate_gradient.h"
 
 TEST(Conjugate_gradient_omp, M2) {
+	int num_of_threads = 6;
     std::vector<std::vector<double>> M = { { 5, 2}, {2, 1} };
     std::vector<double> B = { 7, 9 };
 
-    std::vector<double> X = ConjugateGradient(M, B);
+    std::vector<double> X = ConjugateGradient(M, B, num_of_threads);
     double time1 = omp_get_wtime();
     std::vector<double> Mx = mMultv(M, X);
     double time2 = omp_get_wtime();
@@ -17,20 +18,22 @@ TEST(Conjugate_gradient_omp, M2) {
     }
 }
 TEST(Conjugate_gradient_omp, X) {
+	int num_of_threads = 3;
     std::vector<std::vector<double>> M = { { 5, 2}, {2, 1} };
     std::vector<double> B = { 7, 9 };
 
-    std::vector<double> X = ConjugateGradient(M, B);
+    std::vector<double> X = ConjugateGradient(M, B, num_of_threads);
     std::vector<double> res = { { -11, 31 } };
     for (size_t i = 0; i < res.size(); ++i) {
         ASSERT_NEAR(res[i], X[i], 0.5);
     }
 }
 TEST(Conjugate_gradient_omp, M3) {
+	int num_of_threads = 2;
     std::vector<std::vector<double>> M = { { 1, 5, 3 }, {2, 1, -1 }, { 4, 2, 1 } };
     std::vector<double> B = { 31, 29, 10 };
 
-    std::vector<double> X = ConjugateGradient(M, B);
+    std::vector<double> X = ConjugateGradient(M, B, num_of_threads);
     double time1 = omp_get_wtime();
     std::vector<double> res = mMultv(M, X);
     double time2 = omp_get_wtime();
@@ -41,10 +44,11 @@ TEST(Conjugate_gradient_omp, M3) {
     }
 }
 TEST(Conjugate_gradient_omp, M4) {
+	int num_of_threads = 6;
     std::vector<std::vector<double>> M = { { 1, -1, 3, 1 }, {4, -1, 5, 4 }, { 2, -2, 4, 1 }, { 1, -4, 5, -1 } };
     std::vector<double> B = { 5, 4, 6, 3 };
 
-    std::vector<double> X = ConjugateGradient(M, B);
+    std::vector<double> X = ConjugateGradient(M, B, num_of_threads);
     double time1 = omp_get_wtime();
     std::vector<double> res = mMultv(M, X);
     double time2 = omp_get_wtime();
@@ -68,7 +72,6 @@ TEST(Conjugate_gradient_omp, MultiMB) {
 }
 TEST(Conjugate_gradient_omp, MultiMBRandom) {
     int n = 100;
-    int num_of_threads = 6;
     std::vector<std::vector<double>> M = getRandomMatrix(n);
     std::vector<double> B = getRandomVector(n);
 
